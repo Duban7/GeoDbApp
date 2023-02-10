@@ -2,7 +2,7 @@
 {
     public class Expedition
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }    
         public DateTime Date { get; set; }
         public List<Geologist> Geologists { get; set; } = new();
