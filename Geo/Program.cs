@@ -1,18 +1,19 @@
-п»їusing Geo.FormFactory.Interfaces;
+using Geo.FormFactory.Interfaces;
 using Geo.FormFactory.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows.Forms;
 using System.Linq;
+using Geo.DAL.context;
 
 namespace Geo
 {
     internal static class Program
     {
-        public static IServiceProvider serviceProvider { get; private set; }
+        public static IServiceProvider? ServiceProvider { get; private set; }
         /// <summary>
-        /// Р“Р»Р°РІРЅР°СЏ С‚РѕС‡РєР° РІС…РѕРґР° РґР»СЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.
+        /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
@@ -20,15 +21,17 @@ namespace Geo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var host = CreateHostBuilder().Build();
-            serviceProvider = host.Services;
-            Application.Run(serviceProvider.GetService<Form1>());
+            ServiceProvider = host.Services;
+            Application.Run(ServiceProvider.GetService<Form1>());
         }
         static IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) => {
                     services.AddSingleton<IFormFactory, FormFactoryImpl>();
-                //Add all forms
+                    services.AddDbContext<GeoDBContext>();
+                   
+                    //Add all forms
                     var forms = typeof(Program).Assembly
                     .GetTypes()
                     .Where(t => t.BaseType == typeof(Form))

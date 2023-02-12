@@ -4,6 +4,6 @@ namespace Geo.FormFactory.Interfaces
 {
     public interface IFormFactory
     {
-        T Create<T>() where T : Form;
+        T? Create<T>() where T : Form;
     }
 }

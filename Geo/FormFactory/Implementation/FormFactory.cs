@@ -13,7 +13,7 @@ namespace Geo.FormFactory.Implementation
             _scope = scopeFactory.CreateScope();
         }
 
-        public T Create<T>() where T: Form
+        public T? Create<T>() where T: Form
         {
             return _scope.ServiceProvider.GetService<T>();
         }
