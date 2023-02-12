@@ -6,6 +6,7 @@
         public string? Name { get; set; }    
         public DateTime Date { get; set; }
         public List<Geologist> Geologists { get; set; } = new();
-        public List<Route> Routes { get; set; } = new();
+        public int RouteID { get; set; }   
+        public Route? Route { get; set; }
     }
 }

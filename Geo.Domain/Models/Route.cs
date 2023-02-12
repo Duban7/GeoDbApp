@@ -9,6 +9,7 @@
         public double Length { get; set; }
         public List<Map> Maps { get; set; } = new();
         public List<Region> Regions { get; set; } = new();
+        public List<Expedition> Expeditions { get; set; } = new();
 
     }
 }

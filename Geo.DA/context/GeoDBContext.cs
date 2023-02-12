@@ -13,7 +13,14 @@ namespace Geo.DAL.context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DUBAN;Database=GeoDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=DUBAN;Database=GeoDB;Trusted_Connection=True;Encrypt=False;");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Expedition>()
+                .HasOne(expedidtion => expedidtion.Route)
+                .WithMany(route => route.Expeditions)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
