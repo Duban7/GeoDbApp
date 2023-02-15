@@ -23,8 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="repositories\interfaces\" />
     <Folder Include="repositories\implementation\" />
+    <Folder Include="repositories\interfaces\" />
+    <Folder Include="repositories\interfaces\" />
   </ItemGroup>
 
 </Project>
