@@ -5,10 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Geo.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ShowInTaskbar="False">
-    <Grid>
-        <Grid.CommandBindings>
-            <CommandBinding Command="" Executed=""/>
-        </Grid.CommandBindings>
-    </Grid>
+        Height="600"
+        Width="920"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseMove="Window_MouseMove">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/MenuRadioButton.xaml"/>
+                <ResourceDictionary Source="Themes/RoundButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Border Background="#2f1212"
+            CornerRadius="25">
+        <Grid>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="GeoDB"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="White"
+                   FontSize="35"/>
+
+            <StackPanel Grid.Row="1">
+                
+                <RadioButton Content="Main"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             IsChecked="True"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+                <RadioButton Content="Expeditions"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+                <RadioButton Content="Geologists"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+                <RadioButton Content="Routes"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+                <RadioButton Content="Regions"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+                <RadioButton Content="Maps"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="20"
+                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                
+            </StackPanel>
+            
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Margin="15">
+                
+                <Button Grid.Column="1"
+                    Style="{StaticResource RoundButtonTheme}"
+                    Width="15"
+                    Height="15"
+                    Background="Green"
+                    Margin="5,0,5,0"
+                    Click="ButtonMinimize_Click"/>
+                
+                <Button Grid.Column="1"
+                    Style="{StaticResource RoundButtonTheme}"
+                    Width="15"
+                    Height="15"
+                    Background="Yellow"
+                    Margin="5,0,5,0"
+                    Click="ButtonMaximize_Click"/>
+                
+                <Button Grid.Column="1"
+                    Style="{StaticResource RoundButtonTheme}"
+                    Width="15"
+                    Height="15"
+                    Background="Red"
+                    Margin="5,0,5,0"
+                    Click="ButtonCloseWindow_Click"/>
+
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>
