@@ -1,2 +1,2 @@
 # Student project
-Simple WinForms app with sql server db
+Simple Wpf CRUD app with sql server db
