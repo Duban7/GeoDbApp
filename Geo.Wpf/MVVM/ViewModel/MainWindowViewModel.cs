@@ -1,9 +1,6 @@
-﻿using Geo.Wpf.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Geo.Domain.Models;
+using Geo.Wpf.Core;
+using System.Windows.Input;
 
 namespace Geo.Wpf.MVVM.ViewModel
 {
@@ -11,8 +8,8 @@ namespace Geo.Wpf.MVVM.ViewModel
     {
         public MainViewModel MainViewModel { get; set; }
         public ExpeditionsViewModel ExpeditionsViewModel { get; set; }
-        public RelayCommand MainViewCommand { get; set; }
-        public RelayCommand ExpeditionsViewCommand { get; set; }
+        public ICommand MainViewCommand { get; set; }
+        public ICommand ExpeditionsViewCommand { get; set; }
 
         private object? _currentView;
         public object? CurrentView
@@ -21,22 +18,24 @@ namespace Geo.Wpf.MVVM.ViewModel
             set
             {
                 _currentView= value;
-                OnPropertyChange();
+                OnPropertyChange("CurrentView");
             }
         }
-        public MainWindowViewModel()
+        public MainWindowViewModel(MainViewModel mainViewModel, ExpeditionsViewModel expeditionsViewModel)
         {
-            MainViewModel= new MainViewModel();
-            ExpeditionsViewModel = new ExpeditionsViewModel();
+            MainViewModel = mainViewModel;
+            ExpeditionsViewModel = expeditionsViewModel;
+            
             MainViewCommand = new RelayCommand((o) => 
             {
                 CurrentView = MainViewModel;
             });
+            
             ExpeditionsViewCommand = new RelayCommand((o) =>
             {
                 CurrentView = ExpeditionsViewModel;
             });
-            CurrentView = MainViewModel;
+
         }
     }
 }

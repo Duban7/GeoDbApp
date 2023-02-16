@@ -34,7 +34,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasIndex("GeologistsId");
 
-                    b.ToTable("ExpeditionGeologist");
+                    b.ToTable("ExpeditionGeologist", (string)null);
                 });
 
             modelBuilder.Entity("Geo.Domain.Models.Expedition", b =>
@@ -58,7 +58,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasIndex("RouteID");
 
-                    b.ToTable("Expeditions");
+                    b.ToTable("Expeditions", (string)null);
                 });
 
             modelBuilder.Entity("Geo.Domain.Models.Geologist", b =>
@@ -83,7 +83,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Geologists");
+                    b.ToTable("Geologists", (string)null);
                 });
 
             modelBuilder.Entity("Geo.Domain.Models.Map", b =>
@@ -107,7 +107,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("Maps");
+                    b.ToTable("Maps", (string)null);
                 });
 
             modelBuilder.Entity("Geo.Domain.Models.Region", b =>
@@ -126,7 +126,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("Geo.Domain.Models.Route", b =>
@@ -151,7 +151,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Routes");
+                    b.ToTable("Routes", (string)null);
                 });
 
             modelBuilder.Entity("MapRoute", b =>
@@ -166,7 +166,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasIndex("RoutesId");
 
-                    b.ToTable("MapRoute");
+                    b.ToTable("MapRoute", (string)null);
                 });
 
             modelBuilder.Entity("RegionRoute", b =>
@@ -181,7 +181,7 @@ namespace Geo.DAL.Migrations
 
                     b.HasIndex("RoutesId");
 
-                    b.ToTable("RegionRoute");
+                    b.ToTable("RegionRoute", (string)null);
                 });
 
             modelBuilder.Entity("ExpeditionGeologist", b =>

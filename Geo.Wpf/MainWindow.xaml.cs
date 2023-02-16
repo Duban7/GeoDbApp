@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Geo.Wpf.MVVM.ViewModel;
+using System.Windows;
 
 namespace Geo.Wpf
 {
@@ -7,9 +8,10 @@ namespace Geo.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            this.DataContext = mainWindowViewModel;
         }
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
