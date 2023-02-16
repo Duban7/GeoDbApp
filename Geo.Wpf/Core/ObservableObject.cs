@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Geo.Wpf.Core
 {
-    internal class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChange([CallerMemberName] string? name = null)
