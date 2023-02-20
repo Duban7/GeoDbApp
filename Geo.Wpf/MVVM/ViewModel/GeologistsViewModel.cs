@@ -14,17 +14,15 @@ namespace Geo.Wpf.MVVM.ViewModel
 {
     public class GeologistsViewModel
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly IGeologistsRepository? _geologistsRepository;
         public ICommand ShowExpeditionsCommand { get; set; }
         public ICommand DeleteGeologistCommand { get; set; }
         public ICommand EditGeologistCommand { get; set; }
         public ObservableCollection<Geologist>? Geologists { get; set; }
-        public GeologistsViewModel(IServiceProvider serviceProvider, IGeologistsRepository geologistsRepository) 
+        public GeologistsViewModel(IGeologistsRepository geologistsRepository) 
         {
-            _serviceProvider = serviceProvider;
             _geologistsRepository = geologistsRepository;
-            Geologists = geologistsRepository.GetAll();
+            Geologists = _geologistsRepository.GetAll();
 
             ShowExpeditionsCommand = new RelayCommand((o)=>
             {

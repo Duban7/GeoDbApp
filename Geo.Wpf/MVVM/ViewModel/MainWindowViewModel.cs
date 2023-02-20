@@ -11,9 +11,15 @@ namespace Geo.Wpf.MVVM.ViewModel
         public MainViewModel MainViewModel { get; set; }
         public ExpeditionsViewModel ExpeditionsViewModel { get; set; }
         public GeologistsViewModel GeologistsViewModel { get; set; }
+        public MapsViewModel MapsViewModel { get; set; }
+        public RegionsViewModel RegionsViewModel { get; set; }
+        public RoutesViewModel RoutesViewModel { get; set; }
         public ICommand MainViewCommand { get; set; }
         public ICommand ExpeditionsViewCommand { get; set; }
         public ICommand GeologistsViewCommand { get; set; }
+        public ICommand MapsViewCommand { get; set; }
+        public ICommand RegionsViewCommand { get; set; }
+        public ICommand RoutesViewCommand { get; set; }
 
         private object? _currentView;
         public object? CurrentView
@@ -25,11 +31,19 @@ namespace Geo.Wpf.MVVM.ViewModel
                 OnPropertyChange("CurrentView");
             }
         }
-        public MainWindowViewModel(MainViewModel mainViewModel, ExpeditionsViewModel expeditionsViewModel, GeologistsViewModel geologistsViewModel)
+        public MainWindowViewModel(MainViewModel mainViewModel, 
+                                   ExpeditionsViewModel expeditionsViewModel, 
+                                   GeologistsViewModel geologistsViewModel,
+                                   MapsViewModel mapsViewModel,
+                                   RegionsViewModel regionsViewModel,
+                                   RoutesViewModel routesViewModel)
         {
             MainViewModel = mainViewModel;
             ExpeditionsViewModel = expeditionsViewModel;
             GeologistsViewModel = geologistsViewModel;
+            MapsViewModel = mapsViewModel;
+            RegionsViewModel = regionsViewModel;
+            RoutesViewModel = routesViewModel;
 
             CurrentView = MainViewModel;
 
@@ -46,6 +60,21 @@ namespace Geo.Wpf.MVVM.ViewModel
             GeologistsViewCommand = new RelayCommand((o) =>
             {
                 CurrentView = GeologistsViewModel;
+            });
+
+            MapsViewCommand = new RelayCommand((o) =>
+            {
+                CurrentView = MapsViewModel;
+            });
+
+            RegionsViewCommand = new RelayCommand((o) =>
+            {
+                CurrentView = RegionsViewModel;
+            });
+
+            RoutesViewCommand = new RelayCommand((o) =>
+            {
+                CurrentView = RoutesViewModel;
             });
         }
     }

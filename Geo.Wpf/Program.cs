@@ -49,6 +49,9 @@ namespace Geo.Wpf
                     services.AddTransient<MainViewModel>();
                     services.AddTransient<ExpeditionsViewModel>();
                     services.AddTransient<GeologistsViewModel>();
+                    services.AddTransient<MapsViewModel>();
+                    services.AddTransient<RoutesViewModel>();
+                    services.AddTransient<RegionsViewModel>();
 
                     //Add all forms
                     var windows = typeof(Program).Assembly

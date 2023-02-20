@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Geo.Wpf.MVVM.View.ExpeditionsView"
+﻿<UserControl x:Class="Geo.Wpf.MVVM.View.RoutesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,39 +19,48 @@
     </UserControl.Triggers>
     <Grid>
         <DataGrid Margin="50"
-                  ItemsSource="{Binding Expeditions}"
+                  ItemsSource="{Binding Routes}"
                   IsReadOnly="True"
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
-                <DataGridTextColumn Binding="{Binding Date}" Header="Date"/>
-                <DataGridTemplateColumn Header="Geologists">
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Start point"
+                                    Binding="{Binding StartPoint}"/>
+                <DataGridTextColumn Header="End point"
+                                    Binding="{Binding EndPoint}"/>
+                <DataGridTextColumn Header="Length"
+                                    Binding="{Binding Length}"/>
+                <DataGridTemplateColumn Header="Maps">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowGeologistsCommand,
+                            <Button Command="{Binding Path=DataContext.ShowMapsCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Geologists}"/>
+                                    CommandParameter="{Binding Maps}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Route">
+                <DataGridTemplateColumn Header="Regions">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowRouteCommand,
+                            <Button Command="{Binding Path=DataContext.ShowRegionsCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Route}"/>
+                                    CommandParameter="{Binding Regions}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Expeditions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding Path=DataContext.ShowExpeditionsCommand,
+                                               RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    CommandParameter="{Binding Expeditions}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <Button Width="50" 
-                Height="50" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" 
-                Margin="0,0,100,10"
-                Command="{Binding Show}"/>
     </Grid>
 </UserControl>

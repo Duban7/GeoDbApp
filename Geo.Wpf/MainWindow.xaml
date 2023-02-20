@@ -33,6 +33,18 @@
             <DataTemplate DataType="{x:Type viewModel:ExpeditionsViewModel}">
                 <view:ExpeditionsView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:RoutesViewModel}">
+                <view:RoutesView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:RegionsViewModel}">
+                <view:RegionsView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModel:MapsViewModel}">
+                <view:MapsView/>
+            </DataTemplate>
 
         </ResourceDictionary>
     </Window.Resources>
@@ -84,19 +96,22 @@
                              Height="50"
                              Foreground="White"
                              FontSize="20"
-                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                             Style="{StaticResource MenuRadioButtonTheme}"
+                             Command="{Binding RoutesViewCommand}"/>
 
                 <RadioButton Content="Regions"
                              Height="50"
                              Foreground="White"
                              FontSize="20"
-                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                             Style="{StaticResource MenuRadioButtonTheme}"
+                             Command="{Binding RegionsViewCommand}"/>
 
                 <RadioButton Content="Maps"
                              Height="50"
                              Foreground="White"
                              FontSize="20"
-                             Style="{StaticResource MenuRadioButtonTheme}"/>
+                             Style="{StaticResource MenuRadioButtonTheme}"
+                             Command="{Binding MapsViewCommand}"/>
 
             </StackPanel>
             
