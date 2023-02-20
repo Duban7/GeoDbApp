@@ -6,12 +6,30 @@
              xmlns:local="clr-namespace:Geo.Wpf.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+              Storyboard.TargetProperty="Opacity"
+              From="0.0" To="1.0" Duration="0:0:1"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <Grid>
-        <DataGrid>
+        <DataGrid Margin="100" ItemsSource="{Binding Expeditions}">
             <DataGrid.Columns>
                 <DataGridTextColumn/>
                 <DataGridTextColumn/>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <Button Width="50" 
+                Height="50" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" 
+                Margin="0,0,100,10"
+                Command="{Binding Show}"/>
     </Grid>
 </UserControl>

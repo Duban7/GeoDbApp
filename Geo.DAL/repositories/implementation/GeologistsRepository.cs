@@ -15,7 +15,7 @@ namespace Geo.DAL.repositories.implementation
             _dbContext = dbContext;
         }
 
-        public ICollection<Geologist> GetAll() =>
+        public ObservableCollection<Geologist> GetAll() =>
             new ObservableCollection<Geologist>
             (
                 _dbContext.Geologists
@@ -28,13 +28,21 @@ namespace Geo.DAL.repositories.implementation
                 .Include(g => g.Expeditions)
                 .FirstOrDefault();
 
-        public void Create(Geologist geologist) =>
+        public void Create(Geologist geologist)
+        {
             _dbContext.Geologists.Add(geologist);
+            _dbContext.SaveChanges();
+        }
 
-        public void Update(Geologist geologist) =>
+        public void Update(Geologist geologist) 
+        {
             _dbContext.Geologists.Update(geologist);
+            _dbContext.SaveChanges(); 
+        }
 
-        public void Remove(Geologist geologist) =>
+        public void Remove(Geologist geologist) {
             _dbContext.Geologists.Remove(geologist);
+            _dbContext.SaveChanges(); 
+        }
     }
 }

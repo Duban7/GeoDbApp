@@ -15,12 +15,12 @@ namespace Geo.DAL.repositories.implementation
             _dbContext = dbContext;
         }
 
-        public ICollection<Map> GetAll() =>
+        public ObservableCollection<Map> GetAll() =>
             new ObservableCollection<Map>
             (
                 _dbContext.Maps
-                    .Include(m=>m.Routes)
-                    .Include(m=>m.Region)
+                    .Include(m => m.Routes)
+                    .Include(m => m.Region)
             );
 
         public Map? GetOneById(int id) =>
@@ -30,13 +30,22 @@ namespace Geo.DAL.repositories.implementation
                 .Include(m => m.Region)
                 .FirstOrDefault();
 
-        public void Create(Map map) =>
+        public void Create(Map map)
+        {
             _dbContext.Maps.Add(map);
+            _dbContext.SaveChanges();
+        }
 
-        public void Update(Map map) =>
+        public void Update(Map map)
+        {
             _dbContext.Maps.Update(map);
+            _dbContext.SaveChanges();
+        }
 
-        public void Remove(Map map) =>
+        public void Remove(Map map)
+        {
             _dbContext.Maps.Remove(map);
-    }
+            _dbContext.SaveChanges();
+        }
+        }
 }

@@ -15,7 +15,7 @@ namespace Geo.DAL.repositories.implementation
             _dbContext = dbContext;
         }
 
-        public ICollection<Region> GetAll() =>
+        public ObservableCollection<Region> GetAll() =>
             new ObservableCollection<Region>
             (
                 _dbContext.Regions
@@ -30,13 +30,22 @@ namespace Geo.DAL.repositories.implementation
                 .Include(r => r.Routes)
                 .FirstOrDefault();
 
-        public void Create(Region region) =>
+        public void Create(Region region)
+        {
             _dbContext.Regions.Add(region);
+            _dbContext.SaveChanges();
+        }
 
-        public void Update(Region region) =>
+        public void Update(Region region)
+        {
             _dbContext.Regions.Update(region);
+            _dbContext.SaveChanges();
+        }
 
-        public void Remove(Region region) =>
+        public void Remove(Region region)
+        {
             _dbContext.Regions.Remove(region);
-    }
+            _dbContext.SaveChanges();
+        }
+        }
 }

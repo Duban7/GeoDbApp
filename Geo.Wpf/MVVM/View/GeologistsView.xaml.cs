@@ -1,5 +1,4 @@
-﻿using Geo.Wpf.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,15 +16,13 @@ using System.Windows.Shapes;
 namespace Geo.Wpf.MVVM.View
 {
     /// <summary>
-    /// Логика взаимодействия для ExpeditionsView.xaml
+    /// Логика взаимодействия для GeologistsView.xaml
     /// </summary>
-    public partial class ExpeditionsView : UserControl
+    public partial class GeologistsView : UserControl
     {
-
-        public ExpeditionsView()
+        public GeologistsView()
         {
             InitializeComponent();
         }
-
     }
 }

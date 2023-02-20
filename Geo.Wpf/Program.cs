@@ -39,15 +39,16 @@ namespace Geo.Wpf
 
                     services.AddDbContext<GeoDBContext>();
 
-                    services.AddTransient<IRepository<Map>, MapsRepository>();
-                    services.AddTransient<IRepository<Region>, RegionsRepository>();
-                    services.AddTransient<IRepository<Route>, RoutesRepository>();
-                    services.AddTransient<IRepository<Expedition>, ExpeditionsRepository>();
-                    services.AddTransient<IRepository<Geologist>, GeologistsRepository>();
+                    services.AddTransient<IMapsRepository, MapsRepository>();
+                    services.AddTransient<IRegionsRepository, RegionsRepository>();
+                    services.AddTransient<IRoutesRepository, RoutesRepository>();
+                    services.AddTransient<IExpeditionsRepository, ExpeditionsRepository>();
+                    services.AddTransient<IGeologistsRepository, GeologistsRepository>();
 
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddTransient<MainViewModel>();
                     services.AddTransient<ExpeditionsViewModel>();
+                    services.AddTransient<GeologistsViewModel>();
 
                     //Add all forms
                     var windows = typeof(Program).Assembly
@@ -58,17 +59,6 @@ namespace Geo.Wpf
                     windows.ForEach(window =>
                     {
                         services.AddTransient(window);
-                    });
-
-                    //Add all user controls
-                    var userControls = typeof(Program).Assembly
-                    .GetTypes()
-                    .Where(t => t.BaseType == typeof(UserControl))
-                    .ToList();
-
-                    userControls.ForEach(uC =>
-                    {
-                        services.AddTransient(uC);
                     });
                 });
         }

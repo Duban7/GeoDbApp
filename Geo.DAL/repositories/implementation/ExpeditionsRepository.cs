@@ -15,7 +15,7 @@ namespace Geo.DAL.repositories.implementation
             _dbContext = dbContext;
         }
 
-        public ICollection<Expedition> GetAll() =>
+        public ObservableCollection<Expedition> GetAll() =>
             new ObservableCollection<Expedition>
             (
                 _dbContext.Expeditions
@@ -30,14 +30,24 @@ namespace Geo.DAL.repositories.implementation
                 .Include(e => e.Route)
                 .FirstOrDefault();
 
-        public void Create(Expedition expedition) =>
+
+        public void Create(Expedition expedition)
+        {
             _dbContext.Expeditions.Add(expedition);
+            _dbContext.SaveChanges();
+        }
 
-        public void Update(Expedition expedition) =>
+        public void Update(Expedition expedition)
+        {
             _dbContext.Expeditions.Update(expedition);
+            _dbContext.SaveChanges();
+        }
 
-        public void Remove(Expedition expedition)=>
+        public void Remove(Expedition expedition)
+        {
             _dbContext.Expeditions.Remove(expedition);
+            _dbContext.SaveChanges();
+        }
         
     }
 }
