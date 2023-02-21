@@ -1,6 +1,8 @@
 ﻿using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
+using Geo.Wpf.WindowFactory.Interfaces;
+using Geo.Wpf.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,9 +19,10 @@ namespace Geo.Wpf.MVVM.ViewModel
         private readonly IGeologistsRepository? _geologistsRepository;
         public ICommand ShowExpeditionsCommand { get; set; }
         public ICommand DeleteGeologistCommand { get; set; }
+        public ICommand AddGeologistCommand { get; set; }
         public ICommand EditGeologistCommand { get; set; }
         public ObservableCollection<Geologist>? Geologists { get; set; }
-        public GeologistsViewModel(IGeologistsRepository geologistsRepository) 
+        public GeologistsViewModel(IGeologistsRepository geologistsRepository, IWindowFactory windowFactory) 
         {
             _geologistsRepository = geologistsRepository;
             Geologists = _geologistsRepository.GetAll();
@@ -29,14 +32,32 @@ namespace Geo.Wpf.MVVM.ViewModel
                 MessageBox.Show(((List<Expedition>?)o)?.Count.ToString());
             });
 
+            AddGeologistCommand = new RelayCommand((o) =>
+            {
+                MessageWindow.Show("ok");
+            });
+
             DeleteGeologistCommand = new RelayCommand((o) =>
             {
-                MessageBox.Show("Delete");
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                {
+                    _geologistsRepository.Remove((Geologist)o!);
+                }
             });
 
             EditGeologistCommand = new RelayCommand((o) =>
             {
-                MessageBox.Show("Edit");
+                Geologist geologist = (Geologist)o!;
+                GeologistWindow geologistWindow = windowFactory.Create<GeologistWindow>()!;
+                geologistWindow.AddData(geologist);
+                if(geologistWindow.ShowDialog()==true)
+                {
+                    geologist.Name = geologistWindow.nameTextBox.Text;
+                    geologist.Surname = geologistWindow.surnameTextBox.Text;
+                    geologist.Patronymic = geologistWindow.patronymicTextBox.Text;
+                    geologist.State = geologistWindow.stateComboBox.Text;
+                    _geologistsRepository.Update(geologist);
+                }
             });
         }
     }

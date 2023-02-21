@@ -72,5 +72,6 @@
     {
         public static readonly string Busy = "Busy";
         public static readonly string Free = "Free";
+        public static readonly List<string> States = new List<string>() { GeologistState.Busy, GeologistState.Free };
     }
 }

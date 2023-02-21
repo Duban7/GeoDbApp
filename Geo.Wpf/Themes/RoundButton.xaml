@@ -14,5 +14,10 @@
                 </Setter.Value>
             </Setter>
         </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Bisque"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

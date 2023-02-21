@@ -10,6 +10,7 @@
         Height="600"
         Width="920"
         WindowStyle="None"
+        Title="GeoDB"
         AllowsTransparency="True"
         Background="Transparent"
         MouseMove="Window_MouseMove">
@@ -50,7 +51,9 @@
     </Window.Resources>
 
     <Border Background="#2f1212"
-            CornerRadius="25">
+            CornerRadius="25"
+            BorderBrush="Black"
+            BorderThickness="0.5">
         <Grid>
          
             <Grid.ColumnDefinitions>
@@ -127,7 +130,8 @@
                     Height="15"
                     Background="Green"
                     Margin="5,0,5,0"
-                    Click="ButtonMinimize_Click"/>
+                    Click="ButtonMinimize_Click">
+                </Button>
 
                 <Button Grid.Column="1"
                     Style="{StaticResource RoundButtonTheme}"
