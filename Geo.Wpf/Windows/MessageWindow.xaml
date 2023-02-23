@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Border CornerRadius="25"
-            Background="#1f1212"
+            Background="#2f1212"
             BorderBrush="Black"
             BorderThickness="0.5">
         <Grid>

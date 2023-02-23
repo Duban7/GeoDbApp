@@ -6,6 +6,16 @@
              xmlns:local="clr-namespace:Geo.Wpf.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Themes/DialogWindowButton.xaml"/>
+                <ResourceDictionary Source="../../Themes/DataGrid.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard>
@@ -17,41 +27,65 @@
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
-    <Grid>
-        <DataGrid Margin="50"
-                  ItemsSource="{Binding Expeditions}"
-                  IsReadOnly="True"
-                  AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
-                <DataGridTextColumn Binding="{Binding Date}" Header="Date"/>
-                <DataGridTemplateColumn Header="Geologists">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowGeologistsCommand,
+
+    <Border Background="Transparent"
+                BorderThickness="1"
+                CornerRadius="10"
+                Margin="25 25 25 0"
+                Padding="25 25 25 10">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                <GradientStop Color="#5f1212" Offset="1" />
+                <GradientStop Color="#2f1212" Offset="0.1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+
+            <DataGrid Margin="0 0 0 10"
+                      ItemsSource="{Binding Expeditions}"
+                      RowStyle="{DynamicResource DataGridRowStyle1}" 
+                      CellStyle="{DynamicResource DataGridCellStyle1}" 
+                      Style="{DynamicResource DataGridStyle1}" 
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                    <DataGridTextColumn Binding="{Binding Date, StringFormat='dd-MM-yyyy'}" Header="Date"/>
+                    <DataGridTemplateColumn Header="Geologists">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.ShowGeologistsCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Geologists}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Route">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowRouteCommand,
+                                        CommandParameter="{Binding Geologists}"
+                                        Content=""/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Route">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.ShowRouteCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Route}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <Button Width="50" 
-                Height="50" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" 
-                Margin="0,0,100,10"
-                Command="{Binding Show}"/>
-    </Grid>
+                                        CommandParameter="{Binding Route}"
+                                        Content=""/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Grid.Row="1"
+                    Style="{StaticResource ButtonStyle}"
+                    Width="250"
+                    Height="60"
+                    Content="Add"
+                    FontSize="20"
+                    Command="{Binding Show}"/>
+        </Grid>
+    </Border>
 </UserControl>

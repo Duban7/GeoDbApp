@@ -22,19 +22,42 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand AddGeologistCommand { get; set; }
         public ICommand EditGeologistCommand { get; set; }
         public ObservableCollection<Geologist>? Geologists { get; set; }
-        public GeologistsViewModel(IGeologistsRepository geologistsRepository, IWindowFactory windowFactory) 
+        public GeologistsViewModel(IGeologistsRepository geologistsRepository,
+                                   IWindowFactory windowFactory) 
         {
             _geologistsRepository = geologistsRepository;
             Geologists = _geologistsRepository.GetAll();
 
-            ShowExpeditionsCommand = new RelayCommand((o)=>
+            ShowExpeditionsCommand = new RelayCommand((o) =>
             {
-                MessageBox.Show(((List<Expedition>?)o)?.Count.ToString());
+                List<Expedition> expeditions = (List<Expedition>)o!;
+                if (expeditions.Count > 0)
+                {
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(expeditions.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
+                }
+                else
+                {
+                    MessageWindow.Show("There is no expeditions.");
+                }
             });
 
             AddGeologistCommand = new RelayCommand((o) =>
             {
-                MessageWindow.Show("ok");
+                GeologistWindow geologistWindow = windowFactory.Create<GeologistWindow>()!;
+                if (geologistWindow.ShowDialog() == true)
+                {
+                    Geologist geologist = new()
+                    {
+                        Name = geologistWindow.nameTextBox.Text,
+                        Surname = geologistWindow.surnameTextBox.Text,
+                        Patronymic = geologistWindow.patronymicTextBox.Text,
+                        State = geologistWindow.stateComboBox.Text
+                    };
+                    _geologistsRepository.Create(geologist);
+                    Geologists.Add(geologist);
+                }
             });
 
             DeleteGeologistCommand = new RelayCommand((o) =>
@@ -42,6 +65,7 @@ namespace Geo.Wpf.MVVM.ViewModel
                 if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
                 {
                     _geologistsRepository.Remove((Geologist)o!);
+                    Geologists.Remove((Geologist)o!);
                 }
             });
 

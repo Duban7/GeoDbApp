@@ -6,13 +6,16 @@
              xmlns:local="clr-namespace:Geo.Wpf.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Themes/DataGrid.xaml"/>
+                <ResourceDictionary Source="../../Themes/DialogWindowButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard>
@@ -24,40 +27,65 @@
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
-    <Grid>
-        <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
-                  CellStyle="{DynamicResource DataGridCellStyle1}" 
-                  Style="{DynamicResource DataGridStyle1}" 
-                  Margin="50"
-                  ItemsSource="{Binding Maps}"
-                  IsReadOnly="True"
-                  AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id"
-                                    Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Name"
-                                    Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Type"
-                                    Binding="{Binding Type}"/>
-                <DataGridTemplateColumn Header="Region">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowRegionCommand,
+
+    <Border Background="Transparent"
+            BorderThickness="1"
+            CornerRadius="10"
+            Margin="25 25 25 0"
+            Padding="25 25 25 10">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                <GradientStop Color="#5f1212" Offset="1" />
+                <GradientStop Color="#2f1212" Offset="0.1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+            
+            <DataGrid Margin="0"
+                      RowStyle="{DynamicResource DataGridRowStyle1}" 
+                      CellStyle="{DynamicResource DataGridCellStyle1}" 
+                      Style="{DynamicResource DataGridStyle1}" 
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      ItemsSource="{Binding Maps}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Name"
+                                        Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Type"
+                                        Binding="{Binding Type}"/>
+                    <DataGridTemplateColumn Header="Region">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.ShowRegionCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Region}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Routes">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding Path=DataContext.ShowRoutesCommand,
+                                        CommandParameter="{Binding Region}"
+                                        Content=""/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Routes">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Path=DataContext.ShowRoutesCommand,
                                                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    CommandParameter="{Binding Routes}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+                                        CommandParameter="{Binding Routes}"
+                                        Content=""/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Grid.Row="1"
+                    Style="{StaticResource ButtonStyle}"
+                    Width="250"
+                    Height="60"
+                    Content="Add"
+                    FontSize="20"/>
+        </Grid>
+    </Border>
 </UserControl>
