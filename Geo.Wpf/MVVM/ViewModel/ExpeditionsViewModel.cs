@@ -15,15 +15,16 @@ namespace Geo.Wpf.MVVM.ViewModel
 {
     public class ExpeditionsViewModel
     {
-        private readonly IExpeditionsRepository _expeditionsRepository; 
         public ObservableCollection<Expedition> Expeditions { get; private set; }
         public ICommand ShowGeologistsCommand { get; set; }
         public ICommand ShowRouteCommand { get; set; }
+        public ICommand AddExpeditionCommand { get; set; }
         public ExpeditionsViewModel(IExpeditionsRepository expeditionsRepository,
+                                    IRoutesRepository routesRepository,
+                                    IGeologistsRepository geologistsRepository,
                                     IWindowFactory windowFactory)
         {
-            _expeditionsRepository = expeditionsRepository;
-            Expeditions = _expeditionsRepository.GetAll();
+            Expeditions = expeditionsRepository.GetAll();
             ShowGeologistsCommand = new RelayCommand((o) =>
             {
                 List<Geologist> geologists = (List<Geologist>)o!;
@@ -46,6 +47,19 @@ namespace Geo.Wpf.MVVM.ViewModel
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
                     viewerWindow.SetData(new List<object>() { o });
                     viewerWindow.ShowDialog();
+                }
+            });
+
+            AddExpeditionCommand = new RelayCommand((o) => 
+            {
+                ExpeditionWindow expeditionWindow = windowFactory.Create<ExpeditionWindow>()!;
+                expeditionWindow.AddData(routesRepository.GetAll().ToList(),
+                                         geologistsRepository.GetAll().ToList());
+                if (expeditionWindow.ShowDialog() == true)
+                {
+                    Expedition expedition = (expeditionWindow.DataContext as Expedition)!;
+                    expeditionsRepository.Create(expedition);
+                    Expeditions.Add(expedition);
                 }
             });
         }

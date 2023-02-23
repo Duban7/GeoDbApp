@@ -25,4 +25,10 @@
     <ProjectReference Include="..\Geo.Domain\Geo.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Windows\ModelsWindows\ExpeditionsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,8 @@
 ﻿using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
+using Geo.Wpf.WindowFactory.Interfaces;
+using Geo.Wpf.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,55 +22,55 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand ShowRegionsCommand { get; set; }
         public ICommand ShowExpeditionsCommand { get; set; }
 
-        public RoutesViewModel(IRoutesRepository routesRepository)
+        public RoutesViewModel(IRoutesRepository routesRepository,
+                               IWindowFactory windowFactory)
         {
             _routesRepository = routesRepository;
             Routes = _routesRepository.GetAll();
 
             ShowMapsCommand = new RelayCommand((o) =>
             {
-                StringBuilder stringBuilder = new();
-                foreach (Map m in (List<Map>?)o!)
+                List<Map> maps = (List<Map>)o!;
+                if (maps.Count > 0)
                 {
-                    if (m != null)
-                    {
-                        stringBuilder.Append(m.Name);
-                        stringBuilder.Append('\n');
-                    }
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(maps.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
                 }
-                MessageBox.Show(stringBuilder.ToString());
+                else
+                {
+                    MessageWindow.Show("There is no maps");
+                }
             });
 
             ShowRegionsCommand = new RelayCommand((o) =>
             {
-                StringBuilder stringBuilder = new();
-                foreach (Region r in (List<Region>?)o!)
+                List<Region> regions = (List<Region>)o!;
+                if (regions.Count > 0)
                 {
-                    if (r != null)
-                    {
-                        stringBuilder.Append(r.Name);
-                        stringBuilder.Append(' ');
-                        stringBuilder.Append(r.Country);
-                        stringBuilder.Append('\n');
-                    }
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(regions.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
                 }
-                MessageBox.Show(stringBuilder.ToString());
+                else
+                {
+                    MessageWindow.Show("There is no regions");
+                }
             });
 
             ShowExpeditionsCommand = new RelayCommand((o) =>
             {
-                StringBuilder stringBuilder = new();
-                foreach (Expedition ex in (List<Expedition>?)o!)
+                List<Expedition> expeditions = (List<Expedition>)o!;
+                if (expeditions.Count > 0)
                 {
-                    if (ex != null)
-                    {
-                        stringBuilder.Append(ex.Name);
-                        stringBuilder.Append(' ');
-                        stringBuilder.Append(ex.Date.ToShortDateString());
-                        stringBuilder.Append('\n');
-                    }
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(expeditions.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
                 }
-                MessageBox.Show(stringBuilder.ToString());
+                else
+                {
+                    MessageWindow.Show("There is no expeditions");
+                }
             });
         }
     }

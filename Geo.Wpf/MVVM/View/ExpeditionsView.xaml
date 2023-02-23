@@ -85,7 +85,7 @@
                     Height="60"
                     Content="Add"
                     FontSize="20"
-                    Command="{Binding Show}"/>
+                    Command="{Binding AddExpeditionCommand}"/>
         </Grid>
     </Border>
 </UserControl>

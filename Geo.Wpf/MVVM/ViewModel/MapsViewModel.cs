@@ -1,6 +1,8 @@
 ﻿using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
+using Geo.Wpf.WindowFactory.Interfaces;
+using Geo.Wpf.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,32 +20,40 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ObservableCollection<Map>? Maps { get; private set; }
         public ICommand ShowRegionCommand { get; set; }
         public ICommand ShowRoutesCommand { get; set; } 
-        public MapsViewModel(IMapsRepository mapsRepository) 
+        public MapsViewModel(IMapsRepository mapsRepository,
+                             IWindowFactory windowFactory) 
         {
             _mapsRepository = mapsRepository;
             Maps = _mapsRepository.GetAll();
 
             ShowRegionCommand = new RelayCommand((o) =>
             {
-                Region? region = (Region)o!;
-                if (region != null)
+                List<Region> regions = (List<Region>)o!;
+                if (regions.Count > 0)
                 {
-                    MessageBox.Show(region.Name);
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(regions.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
+                }
+                else
+                {
+                    MessageWindow.Show("There is no regions");
                 }
             });
 
             ShowRoutesCommand = new RelayCommand((o) =>
             {
-                StringBuilder stringBuilder = new();
-                foreach (Route r in (List<Route>?)o!)
+                List<Route> routes = (List<Route>)o!;
+                if (routes.Count > 0)
                 {
-                    if (r != null)
-                    {
-                        stringBuilder.Append(r.Name);
-                        stringBuilder.Append('\n');
-                    }
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(routes.Cast<object>().ToList());
+                    viewerWindow.ShowDialog();
                 }
-                MessageBox.Show(stringBuilder.ToString());
+                else
+                {
+                    MessageWindow.Show("There is no routes");
+                }
             });
 
         }

@@ -18,22 +18,28 @@ namespace Geo.Wpf.Windows
     /// <summary>
     /// Логика взаимодействия для GeologistWindow.xaml
     /// </summary>
-    public partial class GeologistWindow : Window
+    public partial class ExpeditionWindow : Window
     {
-        public GeologistWindow()
+        public ExpeditionWindow()
         {
             InitializeComponent();
+            this.DataContext = new Expedition();
         }
 
-        public void AddData(Geologist geologist)
+        public void AddData(Expedition expedition,
+                            List<Route> allRoutes,
+                            List<Geologist> allGeologists)
         {
-            this.addButton.Content = "Edit";
-            this.nameTextBox.Text = geologist.Name;
-            this.surnameTextBox.Text = geologist.Surname;
-            this.patronymicTextBox.Text = geologist.Patronymic;
-            this.stateComboBox.Text = geologist.State;
+            this.DataContext = expedition;
+            this.routeComboBox.ItemsSource = allRoutes;
+            this.geologistsComboBox.ItemsSource=allGeologists.Except(expedition.Geologists);
         }
-
+        public void AddData(List<Route> allRoutes,
+                            List<Geologist> allGeologists)
+        {
+            this.routeComboBox.ItemsSource = allRoutes;
+            this.geologistsComboBox.ItemsSource = allGeologists;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -54,11 +60,11 @@ namespace Geo.Wpf.Windows
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(nameTextBox.Text.Length > 3 && surnameTextBox.Text.Length > 3 && patronymicTextBox.Text.Length > 3)
+            //if(nameTextBox.Text.Length > 3 && surnameTextBox.Text.Length > 3 && patronymicTextBox.Text.Length > 3)
             {
                 addButton.IsEnabled = true;
             }
-            else
+            //else
             {
                 addButton.IsEnabled = false;
             }
