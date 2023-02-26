@@ -1,4 +1,5 @@
-﻿using Geo.DAL.repositories.interfaces;
+﻿using Geo.DAL.repositories.implementation;
+using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
@@ -20,6 +21,8 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ObservableCollection<Map>? Maps { get; private set; }
         public ICommand ShowRegionCommand { get; set; }
         public ICommand ShowRoutesCommand { get; set; } 
+        public ICommand EditMapCommand { get; set; }
+        public ICommand DeleteMapCommand { get; set; }
         public MapsViewModel(IMapsRepository mapsRepository,
                              IWindowFactory windowFactory) 
         {
@@ -28,11 +31,11 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowRegionCommand = new RelayCommand((o) =>
             {
-                List<Region> regions = (List<Region>)o!;
-                if (regions.Count > 0)
+
+                if ((o as Region) != null)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
-                    viewerWindow.SetData(regions.Cast<object>().ToList());
+                    viewerWindow.SetData(new() {o!});
                     viewerWindow.ShowDialog();
                 }
                 else
@@ -43,7 +46,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowRoutesCommand = new RelayCommand((o) =>
             {
-                List<Route> routes = (List<Route>)o!;
+                ObservableCollection<Route> routes = (ObservableCollection<Route>)o!;
                 if (routes.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -56,6 +59,23 @@ namespace Geo.Wpf.MVVM.ViewModel
                 }
             });
 
+            EditMapCommand = new RelayCommand((o) =>
+            {
+                //add edit handling
+            });
+
+            DeleteMapCommand = new RelayCommand((o) =>
+            {
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                {
+                    Map map = (Map)o!;
+                    if (map != null)
+                    {
+                        mapsRepository.Remove(map);
+                        Maps.Remove(map);
+                    }
+                }
+            });
         }
     }
 }

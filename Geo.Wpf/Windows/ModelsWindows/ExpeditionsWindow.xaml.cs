@@ -22,6 +22,7 @@ namespace Geo.Wpf.Windows
     /// </summary>
     public partial class ExpeditionWindow : Window
     {
+        private Expedition? _savedExpedition = null;
         public ExpeditionWindow()
         {
             InitializeComponent();
@@ -35,6 +36,15 @@ namespace Geo.Wpf.Windows
                             ObservableCollection<Route> allRoutes,
                             ObservableCollection<Geologist> allGeologists)
         {
+            _savedExpedition = new()
+            {
+                Name = expedition.Name,
+                Date = expedition.Date,
+                Route = expedition.Route,
+                Geologists = new ObservableCollection<Geologist>(expedition.Geologists)
+            };
+
+            this.addButton.Content = "Edit";
             this.DataContext = expedition;
             this.routeComboBox.ItemsSource = allRoutes;
             this.routeComboBox.SelectedItem = expedition.Route;
@@ -52,7 +62,18 @@ namespace Geo.Wpf.Windows
         {
             this.DialogResult = true;
         }
+        private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
+        {
 
+            if (_savedExpedition != null)
+            {
+                (this.DataContext as Expedition)!.Name = _savedExpedition.Name;
+                (this.DataContext as Expedition)!.Date = _savedExpedition.Date;
+                (this.DataContext as Expedition)!.Route = _savedExpedition.Route;
+                (this.DataContext as Expedition)!.Geologists = _savedExpedition.Geologists;
+            }
+            this.DialogResult = false;
+        }
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)

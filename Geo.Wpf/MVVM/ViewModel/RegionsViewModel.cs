@@ -1,4 +1,5 @@
-﻿using Geo.DAL.repositories.interfaces;
+﻿using Geo.DAL.repositories.implementation;
+using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
@@ -20,6 +21,8 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ObservableCollection<Region> Regions { get; set; }
         public ICommand ShowMapsCommand { get; set; }
         public ICommand ShowRoutesCommand { get; set; }
+        public ICommand EditRegionCommand { get; set; }
+        public ICommand DeleteRegionCommand { get; set; }
         public RegionsViewModel(IRegionsRepository regionsRepository,
                                 IWindowFactory windowFactory)
         {
@@ -28,7 +31,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowMapsCommand = new RelayCommand((o) =>
             {
-                List<Map> maps = (List<Map>)o!;
+                ObservableCollection<Map> maps = (ObservableCollection<Map>)o!;
                 if (maps.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -43,7 +46,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowRoutesCommand = new RelayCommand((o) =>
             {
-                List<Route> route = (List<Route>)o!;
+                ObservableCollection<Route> route = (ObservableCollection<Route>)o!;
                 if (route.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -53,6 +56,24 @@ namespace Geo.Wpf.MVVM.ViewModel
                 else
                 {
                     MessageWindow.Show("There is no route");
+                }
+            });
+
+            EditRegionCommand = new RelayCommand((o) =>
+            {
+                //add edit handling
+            });
+
+            DeleteRegionCommand = new RelayCommand((o) =>
+            {
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                {
+                    Region region = (Region)o!;
+                    if (region != null)
+                    {
+                        regionsRepository.Remove(region);
+                        Regions.Remove(region);
+                    }
                 }
             });
 

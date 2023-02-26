@@ -74,7 +74,7 @@ namespace Geo.Wpf.MVVM.ViewModel
                 geologistWindow.AddData(geologist);
                 if(geologistWindow.ShowDialog()==true)
                 {
-                    geologist= (geologistWindow.DataContext as Geologist)!;   
+                    //geologist = (geologistWindow.DataContext as Geologist)!;   
                     _geologistsRepository.Update(geologist);
                 }
             });

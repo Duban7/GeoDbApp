@@ -45,7 +45,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowRouteCommand = new RelayCommand((o) =>
             {
-                if (o != null)
+                if ((o as Route) != null)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
                     viewerWindow.SetData(new List<object>() { o });
@@ -78,8 +78,8 @@ namespace Geo.Wpf.MVVM.ViewModel
                                              geologistsRepository.GetAll());
                     if (expeditionWindow.ShowDialog() == true)
                     {
-                        Expedition newExpedition = (expeditionWindow.DataContext as Expedition)!;
-                        expeditionsRepository.Update(newExpedition);
+                        //expedition = (expeditionWindow.DataContext as Expedition)!;
+                        expeditionsRepository.Update(expedition);
                     }
                 }
             });

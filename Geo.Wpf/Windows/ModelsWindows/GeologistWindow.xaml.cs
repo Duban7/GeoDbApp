@@ -20,6 +20,7 @@ namespace Geo.Wpf.Windows
     /// </summary>
     public partial class GeologistWindow : Window
     {
+        private Geologist? _savedGeologist = null;
         public GeologistWindow()
         {
             InitializeComponent();
@@ -29,6 +30,14 @@ namespace Geo.Wpf.Windows
 
         public void AddData(Geologist geologist)
         {
+            _savedGeologist = new() 
+            {
+                Name = geologist.Name,
+                Surname = geologist.Surname,    
+                Patronymic= geologist.Patronymic,
+                State= geologist.State,
+            };
+
             this.addButton.Content = "Edit";
             this.DataContext = geologist;
         }
@@ -36,6 +45,17 @@ namespace Geo.Wpf.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+        }
+        private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            if (_savedGeologist != null)
+            {
+                (this.DataContext as Geologist)!.Name = _savedGeologist.Name;
+                (this.DataContext as Geologist)!.Surname = _savedGeologist.Surname;
+                (this.DataContext as Geologist)!.Patronymic = _savedGeologist.Patronymic;
+                (this.DataContext as Geologist)!.State = _savedGeologist.State;
+            }
+            this.DialogResult = false;
         }
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

@@ -1,4 +1,5 @@
-﻿using Geo.DAL.repositories.interfaces;
+﻿using Geo.DAL.repositories.implementation;
+using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
@@ -21,7 +22,8 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand ShowMapsCommand { get; set; }
         public ICommand ShowRegionsCommand { get; set; }
         public ICommand ShowExpeditionsCommand { get; set; }
-
+        public ICommand EditRouteCommand { get; set; }
+        public ICommand DeleteRouteCommand { get; set; }
         public RoutesViewModel(IRoutesRepository routesRepository,
                                IWindowFactory windowFactory)
         {
@@ -30,7 +32,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowMapsCommand = new RelayCommand((o) =>
             {
-                List<Map> maps = (List<Map>)o!;
+                ObservableCollection<Map> maps = (ObservableCollection<Map>)o!;
                 if (maps.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -45,7 +47,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowRegionsCommand = new RelayCommand((o) =>
             {
-                List<Region> regions = (List<Region>)o!;
+                ObservableCollection<Region> regions = (ObservableCollection<Region>)o!;
                 if (regions.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -60,7 +62,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowExpeditionsCommand = new RelayCommand((o) =>
             {
-                List<Expedition> expeditions = (List<Expedition>)o!;
+                ObservableCollection<Expedition> expeditions = (ObservableCollection<Expedition>)o!;
                 if (expeditions.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -70,6 +72,24 @@ namespace Geo.Wpf.MVVM.ViewModel
                 else
                 {
                     MessageWindow.Show("There is no expeditions");
+                }
+            });
+
+            EditRouteCommand = new RelayCommand((o) =>
+            {
+                //add edit handling
+            });
+
+            DeleteRouteCommand = new RelayCommand((o) =>
+            {
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                {
+                    Route route = (Route)o!;
+                    if (route != null)
+                    {
+                        routesRepository.Remove(route);
+                        Routes.Remove(route);
+                    }
                 }
             });
         }

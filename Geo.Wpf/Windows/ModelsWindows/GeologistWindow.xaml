@@ -40,7 +40,18 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-
+                
+                <Button Grid.Column="1"
+                        Style="{StaticResource RoundButtonTheme}"
+                        Width="15"
+                        Height="15"
+                        Background="Red"
+                        Grid.Row="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="15"
+                        Click="ButtonCloseWindow_Click"/>
+                
                 <TextBlock Grid.Row="0"
                            Text="Name"
                            FontSize="20"
@@ -52,7 +63,8 @@
                          x:Name="nameTextBox"
                          Style="{DynamicResource TextBoxStyle}"
                          TextChanged="TextBox_TextChanged"
-                         Text="{Binding Name}"/>
+                         Text="{Binding Name}"
+                         />
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
