@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="../../Themes/TextBox.xaml"/>
                 <ResourceDictionary Source="../../Themes/ComboBoxForModels.xaml"/>
                 <ResourceDictionary Source="../../Themes/DialogWindowButton.xaml"/>
+                <ResourceDictionary Source="../../Themes/ListView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -40,16 +41,6 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Grid.Column="1"
-                        Style="{StaticResource RoundButtonTheme}"
-                        Width="15"
-                        Height="15"
-                        Background="Red"
-                        Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="15"
-                        Click="ButtonCloseWindow_Click"/>   
 
                 <TextBlock Grid.Row="0"
                            Text="Name"
@@ -65,6 +56,10 @@
                          Text="{Binding Name}"/>
             </Grid>
             <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="63*"/>
+                    <ColumnDefinition Width="37*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -74,13 +69,13 @@
                            FontSize="20"
                            VerticalAlignment="Bottom"
                            Margin="40 0 0 0"
-                           Foreground="White"/>
+                           Foreground="White" Grid.ColumnSpan="2"/>
                 <DatePickerTextBox Style="{DynamicResource TextBoxStyle}"
                                    Grid.Row="1"
-                                   Margin="10"
+                                   Margin="10,10,10,10"
                                    x:Name="DatePickerTextBox"
                                    TextChanged="TextBox_TextChanged"
-                                   Text="{Binding Date, StringFormat='dd-MM-yyyy'}"/>
+                                   Text="{Binding Date, StringFormat='dd-MM-yyyy'}" Grid.ColumnSpan="2"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
@@ -97,7 +92,8 @@
                           Grid.Row="1"
                           Margin="10"
                           ItemContainerStyle="{StaticResource ComboBoxModelItemStyle}"
-                          x:Name="routeComboBox"/>
+                          x:Name="routeComboBox"
+                          SelectionChanged="routeComboBox_SelectionChanged"/>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
@@ -115,15 +111,49 @@
                           Grid.Row="1"
                           Margin="10"
                           ItemContainerStyle="{StaticResource ComboBoxModelItemStyle}"
-                          x:Name="geologistsComboBox"/>
-                <ScrollViewer Grid.Row="2"
-                              HorizontalScrollBarVisibility="Hidden"
-                              VerticalScrollBarVisibility="Hidden">
-                    <StackPanel x:Name="geologistsContainer"
-                                Margin="10">
-                        
-                    </StackPanel>
-                </ScrollViewer>
+                          x:Name="geologistsComboBox"
+                          SelectionChanged="geologistsComboBox_SelectionChanged"/>
+
+                <ListView ItemsPanel="{DynamicResource ListViewItemsPanel}" Grid.Row="2"
+                          Style="{DynamicResource ListViewStyle}" 
+                          ItemsSource="{Binding Geologists}"
+                          x:Name="geologistsListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="auto"
+                                MaxWidth="130"
+                                Height="40" 
+                                Padding="5 0 3 0"
+                                Background="#1f1212"
+                                CornerRadius="5"
+                                BorderThickness="1"
+                                BorderBrush="#4f1212">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ScrollViewer Grid.Column="0"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Disabled">
+                                        <TextBlock 
+                                           MaxHeight="40"
+                                           Text="{Binding Name}"
+                                           Foreground="White"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="15"/>
+                                    </ScrollViewer>
+
+                                    <Button Style="{DynamicResource ListViewCrossButtonStyle}"
+                                        Grid.Column="1"
+                                        Click="Cross_Click"
+                                        Tag="{Binding}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </Grid>
             <Button Style="{DynamicResource ButtonStyle}" Grid.Row="5"

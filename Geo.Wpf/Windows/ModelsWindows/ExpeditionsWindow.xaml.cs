@@ -1,6 +1,8 @@
-﻿using Geo.Domain.Models;
+﻿using Geo.DAL.repositories.implementation;
+using Geo.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,27 +25,34 @@ namespace Geo.Wpf.Windows
         public ExpeditionWindow()
         {
             InitializeComponent();
-            this.DataContext = new Expedition();
+            this.DataContext = new Expedition()
+            {
+                Geologists = new ObservableCollection<Geologist>()
+            };
         }
 
         public void AddData(Expedition expedition,
-                            List<Route> allRoutes,
-                            List<Geologist> allGeologists)
+                            ObservableCollection<Route> allRoutes,
+                            ObservableCollection<Geologist> allGeologists)
         {
             this.DataContext = expedition;
             this.routeComboBox.ItemsSource = allRoutes;
-            this.geologistsComboBox.ItemsSource=allGeologists.Except(expedition.Geologists);
+            this.routeComboBox.SelectedItem = expedition.Route;
+            this.geologistsComboBox.ItemsSource = new ObservableCollection<Geologist>(allGeologists.Except(expedition.Geologists));
+            MessageBox.Show(allGeologists.Except(expedition.Geologists).Count().ToString());
         }
-        public void AddData(List<Route> allRoutes,
-                            List<Geologist> allGeologists)
+        public void AddData(ObservableCollection<Route> allRoutes,
+                            ObservableCollection<Geologist> allGeologists)
         {
             this.routeComboBox.ItemsSource = allRoutes;
             this.geologistsComboBox.ItemsSource = allGeologists;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
         }
+
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
@@ -53,21 +62,50 @@ namespace Geo.Wpf.Windows
                 this.DragMove();
             }
         }
-        private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //if(nameTextBox.Text.Length > 3 && surnameTextBox.Text.Length > 3 && patronymicTextBox.Text.Length > 3)
-            {
+            ExpeditionValidation();
+        }
+
+        private void Cross_Click(object sender, RoutedEventArgs e)
+        {
+            Geologist removedGeologist = ((sender as Button)?.Tag as Geologist)!;
+            (geologistsComboBox.ItemsSource as ObservableCollection<Geologist>)?.Add(removedGeologist);
+            (this.DataContext as Expedition)?.Geologists.Remove(removedGeologist);
+            geologistsComboBox.Items.Refresh();
+            ExpeditionValidation();
+        }
+
+        private void geologistsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (geologistsComboBox.SelectedIndex >= 0) { 
+                Geologist selectedGeologist = (Geologist)geologistsComboBox.SelectedItem;
+                (geologistsComboBox.ItemsSource as ObservableCollection<Geologist>)?.Remove(selectedGeologist);
+                (this.DataContext as Expedition)?.Geologists.Add(selectedGeologist);
+                geologistsComboBox.Items.Refresh();
+                ExpeditionValidation();
+            }
+        }
+
+        private void routeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (routeComboBox.SelectedIndex >= 0)
+                (DataContext as Expedition)!.Route = (Route)routeComboBox.SelectedItem;
+            ExpeditionValidation();
+        }
+
+        private void ExpeditionValidation()
+        {
+            if(
+                (this.DataContext as Expedition)?.Geologists.Count > 2 &&
+                routeComboBox.SelectedIndex >= 0 &&
+                DatePickerTextBox.Text.Length == 10 &&
+                nameTextBox.Text.Length >= 5
+               ) 
                 addButton.IsEnabled = true;
-            }
-            //else
-            {
+            else 
                 addButton.IsEnabled = false;
-            }
         }
     }
 }

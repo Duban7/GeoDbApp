@@ -37,6 +37,7 @@ namespace Geo.Wpf.Windows
         {
             this.DialogResult = true;
         }
+
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
@@ -45,10 +46,6 @@ namespace Geo.Wpf.Windows
                     this.WindowState = WindowState.Normal;
                 this.DragMove();
             }
-        }
-        private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

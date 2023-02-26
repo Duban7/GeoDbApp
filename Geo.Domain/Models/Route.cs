@@ -1,4 +1,6 @@
-﻿namespace Geo.Domain.Models
+﻿using System.Collections.ObjectModel;
+
+namespace Geo.Domain.Models
 {
     public class Route : ObservableObject
     {
@@ -57,8 +59,8 @@
             }
         }
 
-        List<Map>? maps;
-        public List<Map> Maps
+        ObservableCollection<Map>? maps;
+        public ObservableCollection<Map> Maps
         {
             get { return maps != null ? maps : new(); }
             set
@@ -68,8 +70,8 @@
             }
         }
 
-        List<Region>? regions;
-        public List<Region> Regions
+        ObservableCollection<Region>? regions;
+        public ObservableCollection<Region> Regions
         {
             get { return regions != null ? regions : new(); }
             set
@@ -79,8 +81,8 @@
             }
         }
 
-        List<Expedition>? expeditions;
-        public List<Expedition> Expeditions
+        ObservableCollection<Expedition>? expeditions;
+        public ObservableCollection<Expedition> Expeditions
         {
             get { return expeditions != null ? expeditions : new(); }
             set

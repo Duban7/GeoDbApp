@@ -1,4 +1,5 @@
-﻿using Geo.DAL.repositories.interfaces;
+﻿using Geo.DAL.repositories.implementation;
+using Geo.DAL.repositories.interfaces;
 using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
@@ -19,6 +20,8 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand ShowGeologistsCommand { get; set; }
         public ICommand ShowRouteCommand { get; set; }
         public ICommand AddExpeditionCommand { get; set; }
+        public ICommand EditExpeditionCommand { get; set; }
+        public ICommand DeleteExpeditionCommand { get; set; }
         public ExpeditionsViewModel(IExpeditionsRepository expeditionsRepository,
                                     IRoutesRepository routesRepository,
                                     IGeologistsRepository geologistsRepository,
@@ -27,7 +30,7 @@ namespace Geo.Wpf.MVVM.ViewModel
             Expeditions = expeditionsRepository.GetAll();
             ShowGeologistsCommand = new RelayCommand((o) =>
             {
-                List<Geologist> geologists = (List<Geologist>)o!;
+                ObservableCollection<Geologist> geologists = (ObservableCollection<Geologist>)o!;
                 if (geologists.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -53,13 +56,44 @@ namespace Geo.Wpf.MVVM.ViewModel
             AddExpeditionCommand = new RelayCommand((o) => 
             {
                 ExpeditionWindow expeditionWindow = windowFactory.Create<ExpeditionWindow>()!;
-                expeditionWindow.AddData(routesRepository.GetAll().ToList(),
-                                         geologistsRepository.GetAll().ToList());
+                expeditionWindow.AddData(routesRepository.GetAll(),
+                                         geologistsRepository.GetAll());
                 if (expeditionWindow.ShowDialog() == true)
                 {
                     Expedition expedition = (expeditionWindow.DataContext as Expedition)!;
                     expeditionsRepository.Create(expedition);
                     Expeditions.Add(expedition);
+                }
+            });
+
+            EditExpeditionCommand = new RelayCommand((o) => 
+            {
+                Expedition expedition = (Expedition)o!;
+                if (expedition != null)
+                {
+
+                    ExpeditionWindow expeditionWindow = windowFactory.Create<ExpeditionWindow>()!;
+                    expeditionWindow.AddData(expedition,
+                                             routesRepository.GetAll(),
+                                             geologistsRepository.GetAll());
+                    if (expeditionWindow.ShowDialog() == true)
+                    {
+                        Expedition newExpedition = (expeditionWindow.DataContext as Expedition)!;
+                        expeditionsRepository.Update(newExpedition);
+                    }
+                }
+            });
+
+            DeleteExpeditionCommand = new RelayCommand((o) =>
+            {
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                {
+                    Expedition expedition = (Expedition)o!;
+                    if (expedition != null)
+                    {
+                        expeditionsRepository.Remove(expedition);
+                        Expeditions.Remove(expedition);
+                    }
                 }
             });
         }

@@ -30,7 +30,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             ShowExpeditionsCommand = new RelayCommand((o) =>
             {
-                List<Expedition> expeditions = (List<Expedition>)o!;
+                ObservableCollection<Expedition> expeditions = (ObservableCollection<Expedition>)o!;
                 if (expeditions.Count > 0)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
@@ -48,13 +48,7 @@ namespace Geo.Wpf.MVVM.ViewModel
                 GeologistWindow geologistWindow = windowFactory.Create<GeologistWindow>()!;
                 if (geologistWindow.ShowDialog() == true)
                 {
-                    Geologist geologist = new()
-                    {
-                        Name = geologistWindow.nameTextBox.Text,
-                        Surname = geologistWindow.surnameTextBox.Text,
-                        Patronymic = geologistWindow.patronymicTextBox.Text,
-                        State = geologistWindow.stateComboBox.Text
-                    };
+                    Geologist geologist = (geologistWindow.DataContext as Geologist)!;
                     _geologistsRepository.Create(geologist);
                     Geologists.Add(geologist);
                 }
@@ -64,8 +58,12 @@ namespace Geo.Wpf.MVVM.ViewModel
             {
                 if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
                 {
-                    _geologistsRepository.Remove((Geologist)o!);
-                    Geologists.Remove((Geologist)o!);
+                    Geologist geologist = (Geologist)o!;
+                    if (geologist != null)
+                    {
+                        _geologistsRepository.Remove(geologist);
+                        Geologists.Remove(geologist);
+                    }
                 }
             });
 
@@ -76,10 +74,7 @@ namespace Geo.Wpf.MVVM.ViewModel
                 geologistWindow.AddData(geologist);
                 if(geologistWindow.ShowDialog()==true)
                 {
-                    geologist.Name = geologistWindow.nameTextBox.Text;
-                    geologist.Surname = geologistWindow.surnameTextBox.Text;
-                    geologist.Patronymic = geologistWindow.patronymicTextBox.Text;
-                    geologist.State = geologistWindow.stateComboBox.Text;
+                    geologist= (geologistWindow.DataContext as Geologist)!;   
                     _geologistsRepository.Update(geologist);
                 }
             });

@@ -33,11 +33,6 @@ namespace Geo.Wpf.Windows
                 this.DragMove();
             }
         }
-        private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Result = MessageBoxResult.Cancel;
-            this.Close();
-        }
 
         void AddButtons(MessageBoxButton buttons)
         {

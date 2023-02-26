@@ -1,4 +1,6 @@
-﻿namespace Geo.Domain.Models
+﻿using System.Collections.ObjectModel;
+
+namespace Geo.Domain.Models
 {
     public class Map : ObservableObject
     {
@@ -57,8 +59,8 @@
             }
         }
 
-        List<Route>? routes;
-        public List<Route> Routes
+        ObservableCollection<Route>? routes;
+        public ObservableCollection<Route> Routes
         {
             get { return routes != null ? routes : new(); }
             set

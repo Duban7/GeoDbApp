@@ -1,4 +1,6 @@
-﻿namespace Geo.Domain.Models
+﻿using System.Collections.ObjectModel;
+
+namespace Geo.Domain.Models
 {
     public class Geologist : ObservableObject
     {
@@ -57,8 +59,8 @@
             }
         }
 
-        List<Expedition>? expeditions;
-        public List<Expedition> Expeditions
+        ObservableCollection<Expedition>? expeditions;
+        public ObservableCollection<Expedition> Expeditions
         {
             get { return expeditions != null ? expeditions : new(); }
             set
