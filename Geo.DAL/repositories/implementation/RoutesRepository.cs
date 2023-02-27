@@ -20,6 +20,7 @@ namespace Geo.DAL.repositories.implementation
             (
                 _dbContext.Routes
                     .Include(r=>r.Expeditions)
+                    .Include(r=>r.PlannedExpeditions)
                     .Include(r=>r.Maps)
                     .Include(r=>r.Regions)
             );
@@ -28,6 +29,7 @@ namespace Geo.DAL.repositories.implementation
             _dbContext.Routes
                 .Where(e => e.Id == id)
                 .Include(r => r.Expeditions)
+                .Include(r => r.PlannedExpeditions)
                 .Include(r => r.Maps)
                 .Include(r => r.Regions)
                 .FirstOrDefault();

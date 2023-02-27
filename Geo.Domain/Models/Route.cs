@@ -91,5 +91,16 @@ namespace Geo.Domain.Models
                 OnPropertyChange("Expeditions");
             }
         }
+
+        ObservableCollection<PlannedExpedition>? plannedExpeditions;
+        public ObservableCollection<PlannedExpedition> PlannedExpeditions
+        {
+            get { return plannedExpeditions != null ? plannedExpeditions : new(); }
+            set
+            {
+                plannedExpeditions = value;
+                OnPropertyChange("PlannedExpeditions");
+            }
+        }
     }
 }

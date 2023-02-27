@@ -44,6 +44,7 @@ namespace Geo.Wpf
                     services.AddTransient<IRoutesRepository, RoutesRepository>();
                     services.AddTransient<IExpeditionsRepository, ExpeditionsRepository>();
                     services.AddTransient<IGeologistsRepository, GeologistsRepository>();
+                    services.AddTransient<IPlannedExpeditionsRepository, PlannedExpeditionsRepository>();
 
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddTransient<MainViewModel>();

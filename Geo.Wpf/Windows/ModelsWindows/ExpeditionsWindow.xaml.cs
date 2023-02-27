@@ -59,6 +59,23 @@ namespace Geo.Wpf.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if((this.DataContext as Expedition)?.Geologists.Count == 0)
+            {
+                if (MessageWindow.Show("New planned expedition", "Are you sure want to add expedition without geologists?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Expedition? expedition = (this.DataContext as Expedition);
+                    if (expedition != null)
+                    {
+                        this.DataContext = new PlannedExpedition()
+                        {
+                            Name = expedition.Name,
+                            Date = expedition.Date,
+                            Route = expedition.Route,
+                        };
+                    }
+                }
+                else return;
+            }
             this.DialogResult = true;
         }
         private void ButtonCloseWindow_Click(object sender, RoutedEventArgs e)
@@ -121,8 +138,9 @@ namespace Geo.Wpf.Windows
 
         private void ExpeditionValidation()
         {
-            if(
-                (this.DataContext as Expedition)?.Geologists.Count > 2 &&
+            if (
+                ((this.DataContext as Expedition)?.Geologists.Count > 2 ||
+                (this.DataContext as Expedition)?.Geologists.Count == 0) &&
                 routeComboBox.SelectedIndex >= 0 &&
                 DatePickerTextBox.Text.Length == 10 &&
                 nameTextBox.Text.Length >= 5

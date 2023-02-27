@@ -22,9 +22,11 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand AddExpeditionCommand { get; set; }
         public ICommand EditExpeditionCommand { get; set; }
         public ICommand DeleteExpeditionCommand { get; set; }
+        public ICommand ShowPlannedExpeditionsCommand { get; set; }
         public ExpeditionsViewModel(IExpeditionsRepository expeditionsRepository,
                                     IRoutesRepository routesRepository,
                                     IGeologistsRepository geologistsRepository,
+                                    IPlannedExpeditionsRepository plannedExpeditionsRepository,
                                     IWindowFactory windowFactory)
         {
             Expeditions = expeditionsRepository.GetAll();
@@ -60,9 +62,18 @@ namespace Geo.Wpf.MVVM.ViewModel
                                          geologistsRepository.GetAll());
                 if (expeditionWindow.ShowDialog() == true)
                 {
-                    Expedition expedition = (expeditionWindow.DataContext as Expedition)!;
-                    expeditionsRepository.Create(expedition);
-                    Expeditions.Add(expedition);
+                    if(expeditionWindow.DataContext is Expedition)
+                    {
+                        Expedition expedition = (expeditionWindow.DataContext as Expedition)!;
+                        expeditionsRepository.Create(expedition);
+                        Expeditions.Add(expedition);
+                    }
+
+                    if(expeditionWindow.DataContext is PlannedExpedition)
+                    {
+                        PlannedExpedition plannedExpedition = (expeditionWindow.DataContext as PlannedExpedition)!;
+                        plannedExpeditionsRepository.Create(plannedExpedition);
+                    }
                 }
             });
 
@@ -95,6 +106,18 @@ namespace Geo.Wpf.MVVM.ViewModel
                         Expeditions.Remove(expedition);
                     }
                 }
+            });
+
+            ShowPlannedExpeditionsCommand = new RelayCommand((o) => 
+            {
+                ObservableCollection<PlannedExpedition> plannedExpeditions = plannedExpeditionsRepository.GetAll();
+                if (plannedExpeditions.Count > 0)
+                {
+                    DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
+                    viewerWindow.SetData(plannedExpeditions.ToList<object>());
+                    viewerWindow.ShowDialog();
+                }
+                else MessageWindow.Show("There is no planned expeditions");
             });
         }
     }

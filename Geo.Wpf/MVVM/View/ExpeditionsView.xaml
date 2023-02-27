@@ -98,14 +98,25 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <Button Grid.Row="1"
-                    Style="{StaticResource ButtonStyle}"
-                    Width="250"
-                    Height="60"
-                    Content="Add"
-                    FontSize="20"
-                    Command="{Binding AddExpeditionCommand}"/>
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Style="{StaticResource ButtonStyle}"
+                        Width="250"
+                        Height="60"
+                        Content="Add"
+                        FontSize="20"
+                        Margin="0 0 30 0"
+                        Command="{Binding AddExpeditionCommand}"/>
+                <Button Style="{StaticResource ButtonStyle}"
+                        Width="250"
+                        Height="60"
+                        Content="Show planned expeditions"
+                        FontSize="20"
+                        Margin="30 0 0 0"
+                        Command="{Binding ShowPlannedExpeditionsCommand}"/>
+            </StackPanel>
+            
         </Grid>
     </Border>
 </UserControl>
