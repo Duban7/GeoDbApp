@@ -4,6 +4,7 @@ using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
 using Geo.Wpf.Windows;
+using Geo.Wpf.Windows.ModelsWindows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,7 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ObservableCollection<Region> Regions { get; set; }
         public ICommand ShowMapsCommand { get; set; }
         public ICommand ShowRoutesCommand { get; set; }
+        public ICommand AddRegionCommand { get; set; }
         public ICommand EditRegionCommand { get; set; }
         public ICommand DeleteRegionCommand { get; set; }
         public RegionsViewModel(IRegionsRepository regionsRepository,
@@ -59,9 +61,29 @@ namespace Geo.Wpf.MVVM.ViewModel
                 }
             });
 
+            AddRegionCommand = new RelayCommand((o) => 
+            {
+                RegionWindow regionWindow = windowFactory.Create<RegionWindow>()!;
+                if (regionWindow.ShowDialog() == true)
+                {
+                    Region region = (regionWindow.DataContext as Region)!;
+                    regionsRepository.Create(region);
+                    Regions.Add(region);
+                }
+            });
+
             EditRegionCommand = new RelayCommand((o) =>
             {
-                //add edit handling
+                Region region = (Region)o!;
+                if (region != null)
+                {
+                    RegionWindow regionWindow = windowFactory.Create<RegionWindow>()!;
+                    regionWindow.AddData(region);
+                    if (regionWindow.ShowDialog() == true)
+                    {
+                        regionsRepository.Update(region);
+                    }
+                }
             });
 
             DeleteRegionCommand = new RelayCommand((o) =>

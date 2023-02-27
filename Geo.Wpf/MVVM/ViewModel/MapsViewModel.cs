@@ -4,6 +4,7 @@ using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
 using Geo.Wpf.Windows;
+using Geo.Wpf.Windows.ModelsWindows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,9 +22,11 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ObservableCollection<Map>? Maps { get; private set; }
         public ICommand ShowRegionCommand { get; set; }
         public ICommand ShowRoutesCommand { get; set; } 
+        public ICommand AddMapCommand { get; set; }
         public ICommand EditMapCommand { get; set; }
         public ICommand DeleteMapCommand { get; set; }
         public MapsViewModel(IMapsRepository mapsRepository,
+                             IRegionsRepository regionsRepository,
                              IWindowFactory windowFactory) 
         {
             _mapsRepository = mapsRepository;
@@ -59,9 +62,31 @@ namespace Geo.Wpf.MVVM.ViewModel
                 }
             });
 
+            AddMapCommand = new RelayCommand((o) => 
+            {
+                MapsWindow mapsWindow = windowFactory.Create<MapsWindow>()!;
+                mapsWindow.AddData(regionsRepository.GetAll());
+                if (mapsWindow.ShowDialog() == true)
+                {
+                    Map map = (mapsWindow.DataContext as Map)!;
+                    mapsRepository.Create(map);
+                    Maps.Add(map);
+                }
+            });
+
             EditMapCommand = new RelayCommand((o) =>
             {
-                //add edit handling
+                
+                Map map = (Map)o!;
+                if (map != null)
+                {
+                    MapsWindow mapsWindow = windowFactory.Create<MapsWindow>()!;
+                    mapsWindow.AddData(regionsRepository.GetAll(), map);
+                    if(mapsWindow.ShowDialog() == true)
+                    {
+                        mapsRepository.Update(map);
+                    }
+                }
             });
 
             DeleteMapCommand = new RelayCommand((o) =>

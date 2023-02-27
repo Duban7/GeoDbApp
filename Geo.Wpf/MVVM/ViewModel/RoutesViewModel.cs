@@ -22,6 +22,7 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand ShowMapsCommand { get; set; }
         public ICommand ShowRegionsCommand { get; set; }
         public ICommand ShowExpeditionsCommand { get; set; }
+        public ICommand AddRouteCommand { get; set; }
         public ICommand EditRouteCommand { get; set; }
         public ICommand DeleteRouteCommand { get; set; }
         public RoutesViewModel(IRoutesRepository routesRepository,
@@ -73,6 +74,11 @@ namespace Geo.Wpf.MVVM.ViewModel
                 {
                     MessageWindow.Show("There is no expeditions");
                 }
+            });
+
+            AddRouteCommand = new RelayCommand((o) => 
+            {
+
             });
 
             EditRouteCommand = new RelayCommand((o) =>

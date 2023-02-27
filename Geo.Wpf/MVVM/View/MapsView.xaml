@@ -105,7 +105,8 @@
                     Width="250"
                     Height="60"
                     Content="Add"
-                    FontSize="20"/>
+                    FontSize="20"
+                    Command="{Binding AddMapCommand}"/>
         </Grid>
     </Border>
 </UserControl>

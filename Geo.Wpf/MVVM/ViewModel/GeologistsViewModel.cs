@@ -56,7 +56,7 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             DeleteGeologistCommand = new RelayCommand((o) =>
             {
-                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNo))
+                if (MessageBoxResult.Yes == MessageWindow.Show("Deleting", "Are you sure want to delete?", MessageBoxButton.YesNoCancel))
                 {
                     Geologist geologist = (Geologist)o!;
                     if (geologist != null)

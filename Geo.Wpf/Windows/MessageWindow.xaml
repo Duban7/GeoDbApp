@@ -10,7 +10,7 @@
         Background="Transparent"
         WindowStyle="None"
         MouseMove="Window_MouseMove"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
 
     <Window.Resources>

@@ -49,7 +49,6 @@ namespace Geo.Wpf.Windows
             this.routeComboBox.ItemsSource = allRoutes;
             this.routeComboBox.SelectedItem = expedition.Route;
             this.geologistsComboBox.ItemsSource = new ObservableCollection<Geologist>(allGeologists.Except(expedition.Geologists));
-            MessageBox.Show(allGeologists.Except(expedition.Geologists).Count().ToString());
         }
         public void AddData(ObservableCollection<Route> allRoutes,
                             ObservableCollection<Geologist> allGeologists)
