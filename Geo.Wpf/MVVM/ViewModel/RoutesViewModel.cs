@@ -4,6 +4,7 @@ using Geo.Domain.Models;
 using Geo.Wpf.Core;
 using Geo.Wpf.WindowFactory.Interfaces;
 using Geo.Wpf.Windows;
+using Geo.Wpf.Windows.ModelsWindows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,7 @@ namespace Geo.Wpf.MVVM.ViewModel
         public ICommand EditRouteCommand { get; set; }
         public ICommand DeleteRouteCommand { get; set; }
         public RoutesViewModel(IRoutesRepository routesRepository,
+                               IRegionsRepository regionsRepository,
                                IWindowFactory windowFactory)
         {
             _routesRepository = routesRepository;
@@ -78,12 +80,28 @@ namespace Geo.Wpf.MVVM.ViewModel
 
             AddRouteCommand = new RelayCommand((o) => 
             {
-
+                RouteWindow routeWindow = windowFactory.Create<RouteWindow>()!;
+                routeWindow.AddData(regionsRepository.GetAll());
+                if (routeWindow.ShowDialog() == true)
+                {
+                    Route route = (routeWindow.DataContext as Route)!;
+                    routesRepository.Create(route);
+                    Routes.Add(route);
+                }
             });
 
             EditRouteCommand = new RelayCommand((o) =>
             {
-                //add edit handling
+                Route route = (Route)o!;
+                if(route!= null)
+                {
+                    RouteWindow routeWindow = windowFactory.Create<RouteWindow>()!;
+                    routeWindow.AddData(route, regionsRepository.GetAll());
+                    if(routeWindow.ShowDialog() == true)
+                    {
+                        routesRepository.Update(route);
+                    }
+                }
             });
 
             DeleteRouteCommand = new RelayCommand((o) =>

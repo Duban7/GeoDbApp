@@ -48,13 +48,13 @@ namespace Geo.Wpf.Windows
             this.DataContext = expedition;
             this.routeComboBox.ItemsSource = allRoutes;
             this.routeComboBox.SelectedItem = expedition.Route;
-            this.geologistsComboBox.ItemsSource = new ObservableCollection<Geologist>(allGeologists.Except(expedition.Geologists));
+            this.geologistsComboBox.ItemsSource = new ObservableCollection<Geologist>(allGeologists.Except(expedition.Geologists).Where((g) => g.State != GeologistState.Busy));
         }
         public void AddData(ObservableCollection<Route> allRoutes,
                             ObservableCollection<Geologist> allGeologists)
         {
             this.routeComboBox.ItemsSource = allRoutes;
-            this.geologistsComboBox.ItemsSource = allGeologists;
+            this.geologistsComboBox.ItemsSource = new ObservableCollection<Geologist>(allGeologists.Where((g) => g.State != GeologistState.Busy));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -91,10 +91,14 @@ namespace Geo.Wpf.Windows
         private void Cross_Click(object sender, RoutedEventArgs e)
         {
             Geologist removedGeologist = ((sender as Button)?.Tag as Geologist)!;
-            (geologistsComboBox.ItemsSource as ObservableCollection<Geologist>)?.Add(removedGeologist);
-            (this.DataContext as Expedition)?.Geologists.Remove(removedGeologist);
-            geologistsComboBox.Items.Refresh();
-            ExpeditionValidation();
+            if (removedGeologist != null)
+            {
+                (geologistsComboBox.ItemsSource as ObservableCollection<Geologist>)?.Add(removedGeologist);
+                (this.DataContext as Expedition)?.Geologists.Remove(removedGeologist);
+                geologistsComboBox.Items.Refresh();
+                ExpeditionValidation();
+            }
+            else MessageWindow.Show("Unable to remove geologist");
         }
 
         private void geologistsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
