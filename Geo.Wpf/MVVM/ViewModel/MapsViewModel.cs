@@ -38,7 +38,7 @@ namespace Geo.Wpf.MVVM.ViewModel
                 if ((o as Region) != null)
                 {
                     DataViewerWindow viewerWindow = windowFactory.Create<DataViewerWindow>()!;
-                    viewerWindow.SetData(new() {o!});
+                    viewerWindow.SetData(new List<object>() {o!});
                     viewerWindow.ShowDialog();
                 }
                 else

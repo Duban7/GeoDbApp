@@ -11,6 +11,7 @@ using Geo.Domain.Models;
 using Geo.DAL.repositories.implementation;
 using System.Windows.Controls;
 using Geo.Wpf.MVVM.ViewModel;
+using Geo.DAL.repositories.Queries;
 
 namespace Geo.Wpf
 {
@@ -38,6 +39,8 @@ namespace Geo.Wpf
                     services.AddSingleton<IWindowFactory, WindowFactoryImpl>();
 
                     services.AddDbContext<GeoDBContext>();
+
+                    services.AddTransient<DbQueries>();
 
                     services.AddTransient<IMapsRepository, MapsRepository>();
                     services.AddTransient<IRegionsRepository, RegionsRepository>();

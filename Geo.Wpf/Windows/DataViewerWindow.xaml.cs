@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,6 +31,14 @@ namespace Geo.Wpf.Windows
             dataGrid.ItemsSource = items;
                 
         }
+
+        public void SetData(DataTable table)
+        {
+            dataGrid.ItemsSource = table.DefaultView;
+            dataGrid.AutoGeneratingColumn -= DataGrid_AutoGeneratingColumn!;
+            dataGrid.AutoGeneratingColumn += DataGrid_AutoGeneratingColumnsForQueries!;
+
+        }
         private void Border_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
@@ -52,6 +61,14 @@ namespace Geo.Wpf.Windows
             if(e.PropertyType != typeof(string) && e.PropertyType != typeof(Int32) && e.PropertyType != typeof(float))
             {
                 e.Cancel = true; 
+            }
+        }
+        private void DataGrid_AutoGeneratingColumnsForQueries(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            //e.Column.Width = DataGridLength.Auto;
+            if (e.PropertyType == typeof(DateTime))
+            {
+                (e.Column as DataGridTextColumn)!.Binding.StringFormat = "dd-MM-yyyy";
             }
         }
     }
