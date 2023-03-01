@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geo.DAL", "Geo.DAL\Geo.DAL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geo.Domain", "Geo.Domain\Geo.Domain.csproj", "{35ACE2D5-62B1-405A-A098-C13FEE88D302}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geo", "Geo\Geo.csproj", "{46D2E3EB-DB39-4E35-B37F-62A5C0034008}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geo.Wpf", "Geo.Wpf\Geo.Wpf.csproj", "{61A28F89-8EDB-4D24-95C8-42085C3CEE2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geo.Wpf", "Geo.Wpf\Geo.Wpf.csproj", "{61A28F89-8EDB-4D24-95C8-42085C3CEE2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{35ACE2D5-62B1-405A-A098-C13FEE88D302}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35ACE2D5-62B1-405A-A098-C13FEE88D302}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35ACE2D5-62B1-405A-A098-C13FEE88D302}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46D2E3EB-DB39-4E35-B37F-62A5C0034008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46D2E3EB-DB39-4E35-B37F-62A5C0034008}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46D2E3EB-DB39-4E35-B37F-62A5C0034008}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46D2E3EB-DB39-4E35-B37F-62A5C0034008}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61A28F89-8EDB-4D24-95C8-42085C3CEE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61A28F89-8EDB-4D24-95C8-42085C3CEE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61A28F89-8EDB-4D24-95C8-42085C3CEE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
