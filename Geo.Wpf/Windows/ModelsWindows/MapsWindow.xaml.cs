@@ -38,7 +38,8 @@ namespace Geo.Wpf.Windows.ModelsWindows
             {
                 Name = map.Name,
                 Type = map.Type,
-                Region = map.Region
+                Region = map.Region,
+                RegionId= map.RegionId,
             };
 
             this.addButton.Content = "Edit";
@@ -59,6 +60,7 @@ namespace Geo.Wpf.Windows.ModelsWindows
                 (this.DataContext as Map)!.Name = _savedMap.Name;
                 (this.DataContext as Map)!.Type = _savedMap.Type;
                 (this.DataContext as Map)!.Region = _savedMap.Region;
+                (this.DataContext as Map)!.RegionId = _savedMap.RegionId;
             }
             this.DialogResult = false;
         }
@@ -89,8 +91,11 @@ namespace Geo.Wpf.Windows.ModelsWindows
 
         private void regionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (regionComboBox.SelectedIndex >= 0)
+            if (regionComboBox.SelectedIndex >= 0 &&
+                nameTextBox.Text.Length >= 3 &&
+                typeTextBox.Text.Length >= 3)
                 (DataContext as Map)!.Region = (Region)regionComboBox.SelectedItem;
+                (DataContext as Map)!.RegionId = ((Region)regionComboBox.SelectedItem).Id;
             MapValidation();
         }
     }

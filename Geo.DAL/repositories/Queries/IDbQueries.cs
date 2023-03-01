@@ -22,7 +22,7 @@ namespace Geo.DAL.repositories.Queries
         {
             using (SqlConnection con = new SqlConnection(_conString))
             {
-                SqlCommand cmd = new($"SELECT E.Id, E.Name, E.Date, R.Name as RouteName FROM Expeditions E INNER JOIN Routes R ON E.RouteID = R.Id INNER JOIN RegionRoute RR ON R.Id = RR.RoutesId INNER JOIN Regions RG ON RR.RegionsId = RG.Id WHERE RG.Country = 'belarus' SELECT RG.Name as RegionName, SUM(R.Length) as TotalLength FROM Regions RG INNER JOIN RegionRoute RR ON RG.Id = RR.RegionsId INNER JOIN Routes R ON RR.RoutesId = R.Id GROUP BY RG.Name", con);
+                SqlCommand cmd = new($"SELECT E.Id, E.Name, E.Date, R.Name as RouteName FROM Expeditions E INNER JOIN Routes R ON E.RouteID = R.Id INNER JOIN RegionRoute RR ON R.Id = RR.RoutesId INNER JOIN Regions RG ON RR.RegionsId = RG.Id WHERE RG.Country = 'belarus'", con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable("table");
                 sda.Fill(dataTable);

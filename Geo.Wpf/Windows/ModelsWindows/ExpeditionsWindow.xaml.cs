@@ -41,6 +41,7 @@ namespace Geo.Wpf.Windows
                 Name = expedition.Name,
                 Date = expedition.Date,
                 Route = expedition.Route,
+                RouteID = expedition.RouteID,
                 Geologists = new ObservableCollection<Geologist>(expedition.Geologists)
             };
 
@@ -71,6 +72,7 @@ namespace Geo.Wpf.Windows
                             Name = expedition.Name,
                             Date = expedition.Date,
                             Route = expedition.Route,
+                            RouteID = expedition.RouteID,
                         };
                     }
                 }
@@ -132,7 +134,10 @@ namespace Geo.Wpf.Windows
         private void routeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (routeComboBox.SelectedIndex >= 0)
+            {
                 (DataContext as Expedition)!.Route = (Route)routeComboBox.SelectedItem;
+                (DataContext as Expedition)!.RouteID = ((Route)routeComboBox.SelectedItem).Id;
+            }
             ExpeditionValidation();
         }
 
