@@ -1,7 +1,7 @@
 # Course paper
 Simple Wpf CRUD app with sql server db
 
-Specofication (on russian):
+Specification (on russian):
 
 БД «Геологоразведочная экспедиция». 
 
